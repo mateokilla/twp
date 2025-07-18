@@ -20,4 +20,4 @@ def atr(df: pd.DataFrame, period: int = 14) -> pd.Series:
     low_close = (df['Low'] - df['Close'].shift()).abs()
     tr = pd.concat([high_low, high_close, low_close], axis=1).max(axis=1)
     atr_series = tr.rolling(window=period).mean()
-    return atr_series  # Mindig csak Series-t ad vissza!
+    return atr_series

@@ -17,8 +17,8 @@ else:
 
 df = generate_signals(df)
 results = run_backtest(df)
-total_return = (results['PnL'] + 1).prod() - 1
-print(f"Összesített hozam: {total_return * 100:.2f}%")
+total_return = ((results['PnL'].dropna().astype(float) + 1).prod() - 1)
+print(f"Összesített hozam: {float(total_return) * 100:.2f}%")
 export_results(results)
 df_recent = df.tail(300).copy()
 df_recent.index.name = 'Date'
