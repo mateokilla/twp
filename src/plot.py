@@ -4,15 +4,15 @@ import os
 
 def plot_trades(df_price: pd.DataFrame, trades: pd.DataFrame, filename="trade_chart.png"):
     df = df_price.copy()
-    buy_signals = trades[['Timestamp', 'Entry']].dropna().set_index('Timestamp')
-    sell_signals = trades[['Exit', 'Exit_Price']].dropna().set_index('Exit')
+    buy_signals = trades[['Timestamp', 'Entry']].dropna()
+    sell_signals = trades[['Exit', 'Exit_Price']].dropna()
     apds = []
 
     if not buy_signals.empty:
-        apds.append(mpf.make_addplot(buy_signals['Entry'], type='scatter', markersize=50, marker='^', color='green'))
+        apds.append(mpf.make_addplot(buy_signals.set_index('Timestamp')['Entry'], type='scatter', markersize=50, marker='^', color='green'))
 
     if not sell_signals.empty:
-        apds.append(mpf.make_addplot(sell_signals['Exit_Price'], type='scatter', markersize=50, marker='v', color='red'))
+        apds.append(mpf.make_addplot(sell_signals.set_index('Exit')['Exit_Price'], type='scatter', markersize=50, marker='v', color='red'))
 
     os.makedirs("src/export", exist_ok=True)
 
